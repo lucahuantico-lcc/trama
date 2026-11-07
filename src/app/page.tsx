@@ -1,69 +1,173 @@
-import Image from "next/image";
+import Link from "next/link";
+import { CATEGORIES, COLOR_HEX, PRODUCTS, formatPrice } from "@/data/products";
+import { Garment } from "@/components/Garment";
+import { ProductCard } from "@/components/ProductCard";
 
 export default function Home() {
+  const [first, second, third] = PRODUCTS;
+  const trending = PRODUCTS.filter((p) => p.trending).slice(0, 8);
+  const top = PRODUCTS.slice(3, 11);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      {/* Portada */}
+      <section className="mx-auto grid max-w-7xl gap-10 px-4 pb-16 pt-10 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:pt-16">
+        <div className="rise">
+          <p className="font-mono text-xs uppercase tracking-[0.25em] text-muted">
+            Edición otoño–invierno 2026
           </p>
+          <h1 className="mt-5 font-display text-[clamp(3rem,8vw,6.5rem)] font-extrabold leading-[0.9] tracking-tight">
+            Las <span className="text-accent">100</span> prendas que más compra la gente.
+          </h1>
+          <p className="mt-6 max-w-md text-lg text-muted">
+            Sin relleno. Ordenamos la tienda según lo que de verdad se vende hoy: de la sudadera
+            número uno hasta el puesto cien.{" "}
+            <span className="font-serif text-xl italic text-ink">Tú eliges, la lista ya filtró.</span>
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/tienda"
+              className="bg-ink px-6 py-3 font-medium text-paper transition hover:bg-accent"
+            >
+              Ver la lista completa →
+            </Link>
+            <Link
+              href="#categorias"
+              className="border border-ink px-6 py-3 font-medium transition hover:bg-paper-2"
+            >
+              Por categoría
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Podio */}
+        <div className="grid grid-cols-2 content-center gap-3">
+          {[first, second, third].map((p, i) => (
+            <Link
+              key={p.slug}
+              href={`/producto/${p.slug}`}
+              style={{ animationDelay: `${150 + i * 120}ms` }}
+              className={`rise group relative overflow-hidden border border-ink bg-paper-2 ${
+                i === 0 ? "col-span-2 aspect-[2/1.05]" : "aspect-square"
+              }`}
+            >
+              <span className="absolute left-3 top-1 font-display text-7xl font-extrabold text-ink/10">
+                {i + 1}
+              </span>
+              <Garment
+                type={p.garment}
+                color={COLOR_HEX[p.colors[0]]}
+                className={`absolute transition duration-500 group-hover:scale-105 ${
+                  i === 0 ? "inset-y-[8%] right-[6%] w-[48%]" : "inset-x-[20%] top-[4%] bottom-[34%]"
+                }`}
+              />
+              <div
+                className={`absolute bottom-0 left-0 p-3 ${
+                  i === 0 ? "" : "right-0 border-t border-ink bg-paper"
+                }`}
+              >
+                <p className="font-mono text-[11px] uppercase tracking-widest text-accent">
+                  Nº{i + 1} más vendido
+                </p>
+                <p className={`font-display font-bold leading-tight ${i === 0 ? "max-w-[45%] text-2xl" : "text-sm"}`}>
+                  {p.name}
+                </p>
+                <p className="font-mono text-sm">{formatPrice(p.price)}</p>
+              </div>
+            </Link>
+          ))}
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Cinta */}
+      <div className="overflow-hidden border-y border-ink bg-accent py-3 text-accent-ink">
+        <div className="marquee flex w-max gap-10 whitespace-nowrap font-display text-xl font-bold">
+          {[...PRODUCTS.slice(0, 14), ...PRODUCTS.slice(0, 14)].map((p, i) => (
+            <span key={i}>
+              #{p.rank} {p.name} <span className="opacity-50">✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Siguientes en la lista */}
+      <section className="mx-auto max-w-7xl px-4 pt-20 sm:px-6">
+        <div className="flex items-end justify-between gap-4 border-b border-ink pb-4">
+          <h2 className="font-display text-4xl font-extrabold tracking-tight">Del 4 al 11</h2>
+          <Link href="/tienda" className="font-mono text-sm hover:text-accent">
+            Ver los 100 →
+          </Link>
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+          {top.map((p) => (
+            <ProductCard key={p.slug} product={p} />
+          ))}
+        </div>
+      </section>
+
+      {/* Categorías */}
+      <section id="categorias" className="mx-auto max-w-7xl scroll-mt-20 px-4 pt-20 sm:px-6">
+        <h2 className="border-b border-ink pb-4 font-display text-4xl font-extrabold tracking-tight">
+          Por categoría
+        </h2>
+        <div className="grid sm:grid-cols-2">
+          {CATEGORIES.map((c) => {
+            const items = PRODUCTS.filter((p) => p.category === c.id);
+            const lead = items[0];
+            return (
+              <Link
+                key={c.id}
+                href={`/categoria/${c.id}`}
+                className="group flex items-center gap-5 border-b border-ink py-5 sm:odd:border-r sm:odd:pr-6 sm:even:pl-6"
+              >
+                <div className="h-20 w-20 shrink-0 bg-paper-2 p-2 transition group-hover:bg-accent/15">
+                  <Garment type={lead.garment} color={COLOR_HEX[lead.colors[0]]} className="h-full w-full" />
+                </div>
+                <div className="flex-1">
+                  <p className="font-display text-2xl font-bold group-hover:text-accent">{c.name}</p>
+                  <p className="text-sm text-muted">{c.blurb}</p>
+                </div>
+                <span className="font-mono text-sm text-muted">{items.length}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Tendencias */}
+      <section className="mx-auto max-w-7xl px-4 pt-20 sm:px-6">
+        <div className="border-b border-ink pb-4">
+          <h2 className="font-display text-4xl font-extrabold tracking-tight">
+            Lo que <span className="font-serif font-normal italic text-accent">está subiendo</span>
+          </h2>
+          <p className="mt-1 text-muted">Prendas cuyas búsquedas y ventas crecen más rápido esta temporada.</p>
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-4">
+          {trending.map((p) => (
+            <ProductCard key={p.slug} product={p} />
+          ))}
+        </div>
+      </section>
+
+      {/* Método */}
+      <section className="mx-auto mt-20 max-w-7xl px-4 sm:px-6">
+        <div className="grid gap-8 border border-ink bg-paper-2 p-8 md:grid-cols-3 md:p-12">
+          <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight">
+            ¿Cómo armamos la lista?
+          </h2>
+          <p className="text-muted">
+            Cruzamos los rankings públicos de más vendidos en ropa con reportes de ventas mensuales y
+            tendencias de búsqueda. Los básicos baratos con miles de reseñas dominan arriba; las
+            tendencias de temporada entran más abajo.
+          </p>
+          <ul className="space-y-2 font-mono text-sm">
+            <li>01 — Rankings de más vendidos</li>
+            <li>02 — Unidades e ingresos al mes</li>
+            <li>03 — Crecimiento en búsquedas</li>
+            <li>04 — Revisión cada temporada</li>
+          </ul>
+        </div>
+      </section>
+    </>
   );
 }

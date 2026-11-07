@@ -166,7 +166,6 @@ const ROWS: Row[] = [
   ["Jogger cargo de hombre", "pantalones", "hombre", "pants", 33, ["negro", "oliva", "gris"], "Mezcla de cargo y jogger con bolsillos útiles."],
   ["Suéter de cachemira mezcla", "punto", "unisex", "sweater", 59, ["camel", "gris", "negro", "crema"], "Lujo accesible: se busca como regalo."],
   ["Chaqueta de piel sintética", "abrigos", "mujer", "jacket", 58, ["negro", "chocolate"], "Estilo biker que no pasa de moda."],
-  ["Camiseta de tirantes pack (3)", "basicos", "hombre", "tank", 18, ["blanco", "negro", "gris"], "Tanks en multipack, top en ventas de hombre."],
   ["Leggings con bolsillos", "deporte", "mujer", "leggings", 27, ["negro", "marino", "gris"], "Los bolsillos laterales son lo más pedido."],
   ["Vestido de punto suéter", "vestidos", "mujer", "dress", 42, ["crema", "camel", "gris"], "Unió dos tendencias: punto y vestido."],
   ["Chaqueta de jean con borrego", "abrigos", "hombre", "jacket", 59, ["denim", "negro"], "Versión de invierno de la chaqueta vaquera."],
