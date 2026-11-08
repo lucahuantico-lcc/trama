@@ -33,6 +33,7 @@ async function ProductContent({ params }: { params: Promise<{ slug: string }> })
     name: p.name,
     category: cat.name,
     description: p.why,
+    ...(p.image ? { image: `${p.image}?w=1200&q=75&auto=format&fit=crop` } : {}),
     offers: { "@type": "Offer", price: p.price, priceCurrency: "USD", availability: "https://schema.org/InStock" },
     aggregateRating: { "@type": "AggregateRating", ratingValue: p.rating, reviewCount: p.reviews },
   };

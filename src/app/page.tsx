@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { CATEGORIES, COLOR_HEX, PRODUCTS, formatPrice } from "@/data/products";
-import { Garment } from "@/components/Garment";
+import { CATEGORIES, PRODUCTS, formatPrice } from "@/data/products";
+import { ProductImage } from "@/components/ProductImage";
 import { ProductCard } from "@/components/ProductCard";
 
 export default function Home() {
@@ -48,31 +48,28 @@ export default function Home() {
               href={`/producto/${p.slug}`}
               style={{ animationDelay: `${150 + i * 120}ms` }}
               className={`rise group relative overflow-hidden border border-ink bg-paper-2 ${
-                i === 0 ? "col-span-2 aspect-[2/1.05]" : "aspect-square"
+                i === 0 ? "col-span-2 aspect-[2/1.15]" : "aspect-[4/5]"
               }`}
             >
-              <span className="absolute left-3 top-1 font-display text-7xl font-extrabold text-ink/10">
+              <ProductImage
+                product={p}
+                preload
+                sizes={i === 0 ? "(min-width: 1024px) 45vw, 100vw" : "(min-width: 1024px) 22vw, 50vw"}
+                className="transition duration-500 group-hover:scale-105"
+              />
+              <span className="absolute left-0 top-0 bg-ink px-3 py-1 font-display text-2xl font-extrabold text-paper">
                 {i + 1}
               </span>
-              <Garment
-                type={p.garment}
-                color={COLOR_HEX[p.colors[0]]}
-                className={`absolute transition duration-500 group-hover:scale-105 ${
-                  i === 0 ? "inset-y-[8%] right-[6%] w-[48%]" : "inset-x-[20%] top-[4%] bottom-[34%]"
-                }`}
-              />
-              <div
-                className={`absolute bottom-0 left-0 p-3 ${
-                  i === 0 ? "" : "right-0 border-t border-ink bg-paper"
-                }`}
-              >
+              <div className="absolute inset-x-0 bottom-0 border-t border-ink bg-paper/95 p-3">
                 <p className="font-mono text-[11px] uppercase tracking-widest text-accent">
                   Nº{i + 1} más vendido
                 </p>
-                <p className={`font-display font-bold leading-tight ${i === 0 ? "max-w-[45%] text-2xl" : "text-sm"}`}>
-                  {p.name}
-                </p>
-                <p className="font-mono text-sm">{formatPrice(p.price)}</p>
+                <div className="flex items-end justify-between gap-2">
+                  <p className={`font-display font-bold leading-tight ${i === 0 ? "text-2xl" : "text-sm"}`}>
+                    {p.name}
+                  </p>
+                  <p className="shrink-0 font-mono text-sm">{formatPrice(p.price)}</p>
+                </div>
               </div>
             </Link>
           ))}
@@ -120,8 +117,8 @@ export default function Home() {
                 href={`/categoria/${c.id}`}
                 className="group flex items-center gap-5 border-b border-ink py-5 sm:odd:border-r sm:odd:pr-6 sm:even:pl-6"
               >
-                <div className="h-20 w-20 shrink-0 bg-paper-2 p-2 transition group-hover:bg-accent/15">
-                  <Garment type={lead.garment} color={COLOR_HEX[lead.colors[0]]} className="h-full w-full" />
+                <div className="relative h-20 w-20 shrink-0 overflow-hidden border border-ink bg-paper-2">
+                  <ProductImage product={lead} sizes="80px" className="transition group-hover:scale-110" />
                 </div>
                 <div className="flex-1">
                   <p className="font-display text-2xl font-bold group-hover:text-accent">{c.name}</p>

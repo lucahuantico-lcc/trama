@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { COLOR_HEX, formatPrice, type Product } from "@/data/products";
-import { Garment } from "./Garment";
+import { ProductImage } from "./ProductImage";
 import { useCart } from "./CartProvider";
 
 const SIZES_TOP = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -36,18 +36,23 @@ export function ProductBuyBox({ product: p, categoryName }: { product: Product; 
 
   return (
     <div className="mt-4 grid gap-10 lg:grid-cols-[1.15fr_1fr]">
-      <div className="relative aspect-square overflow-hidden border border-ink bg-paper-2">
-        <span className="pointer-events-none absolute -left-2 -top-8 font-display text-[14rem] font-extrabold leading-none text-ink/[0.07]">
-          {String(p.rank).padStart(2, "0")}
-        </span>
-        <Garment
-          key={color}
-          type={p.garment}
-          color={COLOR_HEX[color]}
-          className="rise absolute inset-[12%]"
+      <div className="relative aspect-[4/5] overflow-hidden border border-ink bg-paper-2 lg:aspect-square">
+        {!p.image && (
+          <span className="pointer-events-none absolute -left-2 -top-8 font-display text-[14rem] font-extrabold leading-none text-ink/[0.07]">
+            {String(p.rank).padStart(2, "0")}
+          </span>
+        )}
+        <ProductImage
+          key={p.image ? undefined : color}
+          product={p}
+          color={color}
+          preload
+          sizes="(min-width: 1024px) 55vw, 100vw"
+          className={p.image ? "" : "rise"}
         />
-        <span className="absolute bottom-4 left-4 font-mono text-xs uppercase tracking-widest text-muted">
-          Color: {color}
+        <span className="absolute bottom-4 left-4 flex items-center gap-2 bg-paper px-2 py-1 font-mono text-xs uppercase tracking-widest">
+          <span className="h-3 w-3 rounded-full border border-ink/30" style={{ background: COLOR_HEX[color] }} />
+          {color}
         </span>
       </div>
 

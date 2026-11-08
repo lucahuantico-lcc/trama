@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { COLOR_HEX, formatPrice, getProduct } from "@/data/products";
-import { Garment } from "./Garment";
+import { formatPrice, getProduct } from "@/data/products";
+import { ProductImage } from "./ProductImage";
 import { useCart } from "./CartProvider";
 
 const FREE_SHIPPING = 60;
@@ -49,8 +49,11 @@ export function CartView() {
           if (!p) return null;
           return (
             <li key={`${item.slug}-${item.color}-${item.size}`} className="flex gap-4 border-b border-ink py-4">
-              <Link href={`/producto/${p.slug}`} className="h-24 w-24 shrink-0 bg-paper-2 p-2">
-                <Garment type={p.garment} color={COLOR_HEX[item.color]} className="h-full w-full" />
+              <Link
+                href={`/producto/${p.slug}`}
+                className="relative h-24 w-24 shrink-0 overflow-hidden border border-ink bg-paper-2"
+              >
+                <ProductImage product={p} color={item.color} sizes="96px" />
               </Link>
               <div className="flex flex-1 flex-col">
                 <div className="flex justify-between gap-3">

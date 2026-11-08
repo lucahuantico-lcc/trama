@@ -1,23 +1,24 @@
 import Link from "next/link";
 import { COLOR_HEX, formatPrice, type Product } from "@/data/products";
-import { Garment } from "./Garment";
+import { ProductImage } from "./ProductImage";
 
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
-  const main = COLOR_HEX[product.colors[0]];
   return (
     <Link
       href={`/producto/${product.slug}`}
       className="group relative flex flex-col border border-ink bg-paper transition hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--ink)]"
-      prefetch={priority ? true : undefined}
     >
       <div className="relative aspect-[4/5] overflow-hidden border-b border-ink bg-paper-2">
-        <span className="pointer-events-none absolute -left-1 -top-4 font-display text-[7.5rem] font-extrabold leading-none text-ink/[0.07]">
-          {String(product.rank).padStart(2, "0")}
-        </span>
-        <Garment
-          type={product.garment}
-          color={main}
-          className="absolute inset-[12%] transition duration-500 group-hover:scale-105 group-hover:-rotate-2"
+        {!product.image && (
+          <span className="pointer-events-none absolute -left-1 -top-4 font-display text-[7.5rem] font-extrabold leading-none text-ink/[0.07]">
+            {String(product.rank).padStart(2, "0")}
+          </span>
+        )}
+        <ProductImage
+          product={product}
+          sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+          preload={priority}
+          className="transition duration-500 group-hover:scale-105"
         />
         <span className="absolute left-3 top-3 bg-ink px-2 py-0.5 font-mono text-[11px] text-paper">
           #{product.rank}

@@ -36,7 +36,10 @@ export function Footer() {
         </div>
       </div>
       <p className="border-t border-paper/15 px-4 py-5 text-center font-mono text-[11px] text-paper/40">
-        Proyecto de demostración · precios y reseñas de ejemplo
+        Proyecto de demostración · precios de referencia del mercado · reseñas de ejemplo · fotos de{" "}
+        <a href="https://unsplash.com" className="underline hover:text-accent" target="_blank" rel="noreferrer">
+          Unsplash
+        </a>
       </p>
     </footer>
   );
